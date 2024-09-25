@@ -38,7 +38,7 @@
   "params": [
     {
       "name": "gender_selection",
-      "value": "Male_enrolled",  // default value
+      "value": "Male_enrolled",
       "bind": {
         "input": "select",
         "options": ["Male_enrolled", "Female_enrolled", "Other_enrolled"],
