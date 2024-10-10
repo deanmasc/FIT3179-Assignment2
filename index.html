@@ -1,27 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education in Australia (2023)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
   <script src="js/visualisations.js"></script>
-  
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #8dc1e9;
+      padding: 1.5rem 0;
+      width: 100%;
+    }
+
+    .content-wrapper {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .visualization-container {
+      margin: 2rem 0;
+    }
+
+    .visualization {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 1000px; /* Adjust this width as needed for your visualization size */
+    }
+
+	.visualization-wide {
+      margin-left: -200px; /* Adjust this value as needed to move it more or less */
+    }
+
+	.visualization-wide-2 {
+      margin-left: -50px; /* Adjust this value as needed to move it more or less */
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    h3 {
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+    }
+  </style>
 </head>
 <body>
-  
-  <div id="education_map"></div>
+  <header>
+    <h1 class="display-4 fw-bold">Education in Australia (2023)</h1>
+  </header>
 
-  <div id="enrolled_map"></div>
+  <div class="content-wrapper">
+    <div class="visualization-container">
+      <h3 class="fw-bold">How Many Australians Have at Least High School Educations?</h3>
+      <p>This map displays the percentage of Australians who have completed at least high school education across various states. It highlights educational attainment levels nationwide.</p>
+      <p>We can see that regions like Northern Terriorory and ACT have high percentages of high schoo education levels, whereas places like New South Wales and South Australia have lower percentages</p>
+      <div id="updated_education_map" class="visualization"></div>
+    </div>
 
-<!-- <script type="text/javascript">
+    <div class="visualization-container">
+      <h3 class="fw-bold">Current Enrollment in Educational Programs</h3>
+      <p>This map shows the number of Australians currently enrolled in different levels of education, from primary to tertiary education.</p>
+      <div id="enrolled_map" class="visualization"></div>
+    </div>
 
-  var vis1 = "js/education_map.vg.json";
-  vegaEmbed('#education_map', vis1).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script> -->
+    <!-- <div class="visualization-container">
+      <h3 class="fw-bold">Updated Educational Attainment Levels</h3>
+      <p>This updated map provides more recent data on educational attainment across Australia, offering insights into changes over time.</p>
+      <div id="updated_education_map" class="visualization"></div>
+    </div> -->
 
+    <div class="visualization-container">
+      <h3 class="fw-bold">Employment Status by Education Level and Gender</h3>
+      <p>This bar chart visualizes the employment status of Australians based on their highest level of education and gender, illustrating the correlation between education and employment.</p>
+      <p>We can see that males predominantly work fulle-time, especially those who have some sort of education qualification, whereas it is more popular for Females to work part-time which can be the result off of numerous factors.</p>
+      <div id="employment_barchart" class="visualization visualization-wide"></div>
+    </div>
+
+    <div class="visualization-container">
+      <h3 class="fw-bold">Popular Fields of Study</h3>
+      <p>This bar chart showcases the most popular fields of study among Australians by gender, providing a breakdown of preferences in higher education.</p>
+      <p>The most popular filds of study are Society and Culture & Management and Commerce fields, whereas Agriculture & Food/Hospitality related studies are less common.</p>
+      <div id="field_of_study_barchart" class="visualization visualization-wide-2"></div>
+    </div>
+  </div>
 </body>
 </html>
