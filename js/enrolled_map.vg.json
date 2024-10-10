@@ -1,0 +1,117 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 500,
+  "title": "% of Australians Currently Enrolled in Study by State and Gender (2023)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Homework/refs/heads/main/Week10/js/states.topojson",
+    "format": {
+      "type": "topojson",
+      "feature": "states"
+    }
+  },
+  "transform": [
+    {
+      "lookup": "properties.STATE_NAME",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Homework/refs/heads/main/Week10/data/Enrolled_in_study_by%20sex_and_state.csv",
+          "format": {"type": "csv"}
+        },
+        "key": "State",
+        "fields": ["Male_enrolled", "Female_enrolled", "Other_enrolled"]
+      }
+    },
+    {
+      "calculate": "gender_selection == 'Male_enrolled' ? datum.Male_enrolled : gender_selection == 'Female_enrolled' ? datum.Female_enrolled : datum.Other_enrolled",
+      "as": "selected_field"
+    },
+    {
+      "calculate": "gender_selection == 'Male_enrolled' ? 'Male' : gender_selection == 'Female_enrolled' ? 'Female' : 'Other'",
+      "as": "selected_gender"
+    }
+  ],
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "selected_field",
+          "type": "quantitative",
+          "title": "% of People",
+          "scale": {
+            "range": ["#d0e7ff", "#003366"] 
+          }
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+          {"field": "selected_field", "type": "quantitative", "title": "% Enrolled"},
+          {"field": "selected_gender", "type": "nominal", "title": "Gender"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "color": "black",
+        "font": "Verdana",
+        "fontSize": 12,
+        "fontWeight": 100,
+        "dx": 10,
+        "dy": -10
+      },
+      "encoding": {
+        "text": {
+          "value": ["Northern Territory consistently has", "high enrollment percentages", "across all genders"]
+        },
+        "x": {
+          "value": 210
+        },
+        "y": {
+          "value": 40
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "color": "black",
+        "font": "Verdana",
+        "fontSize": 12,
+        "fontWeight": 100,
+        "dx": 10,
+        "dy": -10
+      },
+      "encoding": {
+        "text": {
+          "value": ["ACT consistently has", "a significantly large difference", "between Males and Females"]
+        },
+        "x": {
+          "value": 680
+        },
+        "y": {
+          "value": 370
+        }
+      }
+    }
+  ],
+  "params": [
+    {
+      "name": "gender_selection",
+      "value": "Male_enrolled",
+      "bind": {
+        "input": "select",
+        "options": ["Male_enrolled", "Female_enrolled", "Other_enrolled"],
+        "labels": ["Male", "Female", "Other"],
+        "name": "Select Gender: "
+      }
+    }
+  ]
+}
