@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 660,
+  "height": 250,
+  "title": "Proportion of Employment Status by Gender & Education Level (2023)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Assignment2/refs/heads/main/data/labour_force_by_gender_new.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.Status == 'Full time' ? '1_Full time' : datum.Status == 'Part time' ? '2_Part time' : datum.Status == 'Unemployed' ? '3_Unemployed' : '4_Not in labour force'",
+      "as": "Ordered_Status"
+    },
+    {
+      "calculate": "datum.Gender === 'Male' ? datum.Percentage : -datum.Percentage",
+      "as": "Adjusted_Percentage"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "size": 30
+      },
+      "encoding": {
+        "x": {
+          "field": "Adjusted_Percentage",
+          "type": "quantitative",
+          "title": "Female                                     % of Employment                                         Male",
+          "scale": {"domain": [-100, 100]},
+          "axis": {
+            "labelExpr": "datum.value < 0 ? -datum.value : datum.value"
+          },
+          "stack": "zero"
+        },
+        "y": {
+          "field": "Category",
+          "type": "nominal",
+          "title": "Education Level"
+        },
+        "color": {
+          "field": "Status",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Full time", "Part time", "Unemployed", "Not in labour force"
+            ],
+            "range": [
+              "#f9080e", "#fd787b", "#f8b1b2", "#d3d3d3"
+            ]
+          },
+          "title": "Employment Status"
+        },
+        "order": {
+          "field": "Ordered_Status",
+          "type": "nominal"
+        },
+        "tooltip": [
+          {"field": "Category", "type": "nominal", "title": "Education"},
+          {"field": "Gender", "type": "nominal", "title": "Gender"},
+          {"field": "Status", "type": "nominal", "title": "Employment Status"},
+          {"field": "Percentage", "type": "quantitative", "title": "Percentage"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "black",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x": {"value": 330},
+        "y2": {"value": 250}
+      }
+    }
+  ]
+}

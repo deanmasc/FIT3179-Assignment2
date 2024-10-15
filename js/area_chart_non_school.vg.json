@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 400,
+  "title": "Amount of Non-School Qualifications by Age and Gender (2014-2023)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Assignment2/refs/heads/main/data/time_series.csv",
+    "format": {"type": "csv"}
+  },
+  "layer": [
+    {
+      "mark": "area",
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal",
+          "timeUnit": "year",  
+          "axis": {"title": "Year", "grid": false}
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "Non-School Qualifications",
+          "type": "quantitative",
+          "axis": {"title": "Non-School Qualifications (000's)", "grid": false}
+        },
+        "color": {
+          "field": "Age",
+          "type": "nominal",
+          "scale": {
+            "range": ["#ffcccc", "#ff9999", "#ff6666", "#ff3333", "#cc0000", "#990000"]
+          },
+          "legend": {"title": "Age Group"}
+        },
+        "tooltip": [
+          {"field": "Age", "type": "ordinal", "title": "Age Range"},
+          {"field": "Gender", "type": "nominal", "title": "Gender"},
+          {"field": "Year", "timeUnit": "year", "type": "temporal", "title": "Year"},
+          {"field": "Non-School Qualifications", "type": "quantitative", "title": "Amount of Non-School Qualifications"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "text": ["All age groups have experienced", "consistent and continuous growth", "in non-school qualifications over", "this period"]
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "color": "black",
+        "font": "Georgia",
+        "fontSize": 14,
+        "fontWeight": 100,
+        "dx": -250,
+        "dy": -185
+      },
+      "encoding": {
+        "text": {"field": "text"}
+      }
+    }
+  ],
+  "params": [
+    {
+      "name": "gender_select",
+      "value": "Male",
+      "bind": {
+        "input": "select",
+        "options": ["Male", "Female", "All"],
+        "name": "Select Gender: "
+      }
+    }
+  ],
+  "transform": [
+    {"filter": "datum.Gender == gender_select"}
+  ]
+}

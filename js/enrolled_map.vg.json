@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 825,
+  "height": 500,
+  "title": "% of Australians Enrolled in Study by State & Gender (2023)",
+  "projection": {
+    "type": "mercator",
+    "scale": 700,
+    "center": [135, -28]
+  },
+  "layer": [
+    {
+      "data": {"sphere": {}}, 
+      "mark": {
+        "type": "geoshape",
+        "fill": "#bcdeef",  
+        "stroke": null 
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Homework/refs/heads/main/Week10/js/states.topojson",
+        "format": {"type": "topojson", "feature": "states"}
+      },
+      "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1},
+      "encoding": {
+        "color": {
+          "field": "selected_field",
+          "type": "quantitative",
+          "title": "% of People",
+          "scale": {"range": ["#fde0e0", "#b30000"]} 
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+          {"field": "selected_field", "type": "quantitative", "title": "% Enrolled"},
+          {"field": "selected_gender", "type": "nominal", "title": "Gender"}
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "properties.STATE_NAME",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Homework/refs/heads/main/Week10/data/Enrolled_in_study_by%20sex_and_state.csv",
+              "format": {"type": "csv"}
+            },
+            "key": "State",
+            "fields": ["Male_enrolled", "Female_enrolled", "Other_enrolled"]
+          }
+        },
+        {
+          "calculate": "gender_selection == 'Male_enrolled' ? datum.Male_enrolled : gender_selection == 'Female_enrolled' ? datum.Female_enrolled : datum.Other_enrolled",
+          "as": "selected_field"
+        },
+        {
+          "calculate": "gender_selection == 'Male_enrolled' ? 'Male' : gender_selection == 'Female_enrolled' ? 'Female' : 'Other'",
+          "as": "selected_gender"
+        }
+      ]
+    },
+    {
+      "data": {"graticule": {"stepMinor": [15, 15]}},  
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#646768",  
+        "strokeWidth": 0.5,
+        "fill": null  
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "text": ["Northern Territory consistently has", "high enrollment percentages", "across all genders"],
+            "longitude": 120,
+            "latitude": -11
+          },
+          {
+            "text": ["ACT consistently has", "a significantly large difference", "between Males and Females"],
+            "longitude": 158,
+            "latitude": -35.2809
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "color": "black",
+        "font": "Georgia",
+        "fontSize": 14,
+        "fontWeight": 100,
+        "dx": 10,
+        "dy": -10
+      },
+      "encoding": {
+        "text": {"field": "text"},
+        "longitude": {"field": "longitude"},
+        "latitude": {"field": "latitude"}
+      }
+    }
+  ],
+  "params": [
+    {
+      "name": "gender_selection",
+      "value": "Male_enrolled",
+      "bind": {
+        "input": "select",
+        "options": ["Male_enrolled", "Female_enrolled", "Other_enrolled"],
+        "labels": ["Male", "Female", "Other"],
+        "name": "Select Gender: "
+      }
+    }
+  ]
+}

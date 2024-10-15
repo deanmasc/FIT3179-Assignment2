@@ -1,0 +1,101 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 820,
+  "height": 300,
+  "title": "Field of Study Popularity by Gender (2023)",
+  "data": {
+    "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Assignment2/refs/heads/main/data/field_of_study_gender.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "window": [
+        {
+          "op": "sum",
+          "field": "Percentage",
+          "as": "TotalPercentage"
+        }
+      ],
+      "groupby": ["Field of study"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": {
+          "field": "Percentage",
+          "type": "quantitative",
+          "title": "%",
+          "axis": {"grid": false}
+        },
+        "x": {
+          "field": "Field of study",
+          "type": "nominal",
+          "title": "Field of Study",
+          "axis": {"labelAngle": 20},
+          "sort": {"field": "TotalPercentage", "order": "ascending"}
+        },
+        "xOffset": {
+          "field": "Gender"
+        },
+        "color": {
+          "field": "Gender",
+          "type": "nominal",
+          "title": "Gender",
+          "scale": {
+            "domain": ["Male", "Female", "Other"],
+            "range": ["#60B2F5", "#d6675b", "#d3d3d3"]
+          }
+        },
+        "tooltip": [
+          {"field": "Field of study", "type": "nominal", "title": "Field of Study"},
+          {"field": "Gender", "type": "nominal", "title": "Gender"},
+          {"field": "Percentage", "type": "quantitative", "title": "Percentage"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "text": ["Architecture/IT/Engineering related", "degrees are highly populated by Males", "signifying a severe discrepency"]
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "color": "#60B2F5",
+        "font": "Verdana",
+        "fontSize": 12,
+        "fontWeight": 100,
+        "dx": -20,
+        "dy": -10
+      },
+      "encoding": {
+        "text": {"field": "text"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "text": ["Health and Society & Culture", "degrees are heavily studied", "by women in comparison to men"]
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "color": "#d6675b",
+        "font": "Verdana",
+        "fontSize": 12,
+        "fontWeight": 100,
+        "dx": 200,
+        "dy": -130
+      },
+      "encoding": {
+        "text": {"field": "text"}
+      }
+    } 
+  ]
+}

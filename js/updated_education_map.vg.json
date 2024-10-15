@@ -1,0 +1,126 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 500,
+  "title": "% of Australians With at Least High School Certification (2023)",
+  "projection": {
+    "type": "mercator",
+    "scale": 700,
+    "center": [135, -28]
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Assignment2/refs/heads/main/js/states.topojson",
+    "format": {
+      "type": "topojson",
+      "feature": "states"
+    }
+  },
+  "transform": [
+    {
+      "lookup": "properties.STATE_NAME",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/deanmasc/FIT3179-Assignment2/refs/heads/main/data/Year12_certificate_or_above_by_state.csv",
+          "format": { "type": "csv" }
+        },
+        "key": "State",
+        "fields": ["Cert", "latitude", "longitude"]
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {"sphere": {}}, 
+      "mark": {
+        "type": "geoshape",
+        "fill": "#bcdeef",  
+        "stroke": null 
+      }
+    },
+    {
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "strokeWidth": 1,
+        "fill": "lightgray"
+      },
+      "encoding": {
+        "tooltip": [
+          { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" },
+          { "field": "Cert", "title": "% of People", "type": "quantitative" }
+        ]
+      }
+    },
+    {
+      "data": { "graticule": {"step": [15, 15]} },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#646768", 
+        "strokeWidth": 0.5,
+        "fill": null  
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude", 
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",  
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "Cert",       
+          "type": "quantitative",
+          "title": "% of People",
+          "scale": {
+            "domain": [86, 98],
+            "range": [1000, 4000]  
+          }
+        },
+        "color": {
+          "value": "#b30000" 
+        },
+        "tooltip": [
+          { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" },
+          { "field": "Cert", "title": "% of People", "type": "quantitative" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "text": ["Northern Territory, despite being", "relatively underdeveloped has", "extremely high education rates"],
+            "longitude": 120,
+            "latitude": -11
+          },
+          {
+            "text": ["NSW has surprisingly low", "education percentages", "despite containing some of", " the highest ranking education", "institutions"],
+            "longitude": 159,
+            "latitude": -31.2809
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "color": "#b30000",
+        "font": "Verdana",
+        "fontSize": 12,
+        "fontWeight": 100,
+        "dx": 10,
+        "dy": -10
+      },
+      "encoding": {
+        "text": {"field": "text"},
+        "longitude": {"field": "longitude"},
+        "latitude": {"field": "latitude"}
+      }
+    }
+  ]
+}
