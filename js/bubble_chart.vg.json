@@ -41,7 +41,7 @@
       "tooltip": [
         {"field": "State", "title": "State"},
         {"field": "Highest Education", "title": "Education"},
-        {"field": "% of State Population", "title": "Norm Amount", "type": "quantitative"}
+        {"field": "Norm Amount", "title": "% of State Population", "type": "quantitative"}
       ]
     }
   }
