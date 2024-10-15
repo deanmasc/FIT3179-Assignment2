@@ -26,7 +26,7 @@
         "y": {
           "field": "Percentage",
           "type": "quantitative",
-          "title": "%",
+          "title": "Proprtion of all Field of Study (%)",
           "axis": {"grid": false}
         },
         "x": {
